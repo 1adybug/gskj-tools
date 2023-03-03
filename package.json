@@ -1,0 +1,22 @@
+{
+    "name": "gstools",
+    "version": "1.0.0",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "description": "格数科技自用工具库",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/1adybug/gstools"
+    },
+    "scripts": {
+        "build": "npx tsc -p ."
+    },
+    "dependencies": {
+        "is-equal": "^1.6.4"
+    },
+    "keywords": [],
+    "devDependencies": {
+        "typescript": "^4.9.5"
+    }
+}
