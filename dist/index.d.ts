@@ -15,7 +15,7 @@ export declare function getRandomBetween(start: number, end: number): number;
  */
 export declare function getRandomItemFromList<T>(list: T[]): T;
 /** 0-9集合 */
-export declare const digitList: string[];
+export declare const digitList: number[];
 /**
  * 获取随机手机号
  */
@@ -30,7 +30,7 @@ export declare const plateNoAlphabetList: string[];
 /**
  * 获取随机一位车牌号
  */
-export declare function getRandomPlateNoItem(): string;
+export declare function getRandomPlateNoItem(): string | number;
 /**
  * 获取一个随机车牌号
  * @param start - 开始的两位，默认是苏H
@@ -125,3 +125,5 @@ export declare function setPeriod(callback: () => void, period: number): number;
  * @param {number} length - 补足的长度，大于等于上一个数的位数
  */
 export declare function addZero(number: number, length?: number): string;
+/** 获取随机姓名 */
+export declare function getRandomName(): string;

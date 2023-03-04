@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addZero = exports.setPeriod = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.getProperties = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
+exports.getRandomName = exports.addZero = exports.setPeriod = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.getProperties = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 /**
  * 休眠指定时间
@@ -52,12 +52,22 @@ function getRandomItemFromList(list) {
 }
 exports.getRandomItemFromList = getRandomItemFromList;
 /** 0-9集合 */
-exports.digitList = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+exports.digitList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 /**
  * 获取随机手机号
  */
 function getRandomPhone() {
-    return `13${getRandomItemFromList(exports.digitList)}${Array(8)
+    const secondList = [3, 5, 7, 8, 9];
+    const thirdList = {
+        3: exports.digitList,
+        5: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        7: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        8: exports.digitList,
+        9: [1, 5, 8, 9]
+    };
+    const second = getRandomItemFromList(secondList);
+    const third = getRandomItemFromList(thirdList[second]);
+    return `1${second}${third}${Array(8)
         .fill(0)
         .map(() => getRandomItemFromList(exports.digitList))
         .join("")}`;
@@ -297,4 +307,11 @@ function addZero(number, length = 2) {
     return `${Array(lack).fill(0).join("")}${number}`;
 }
 exports.addZero = addZero;
+/** 获取随机姓名 */
+function getRandomName() {
+    const firstList = ["张", "李", "王", "赵", "钱", "孙", "李", "吴", "徐", "周", "庞", "关", "朱"];
+    const secondList = ["子", "文", "涛", "权", "明", "亮", "盛", "雨", "宇", "冰", "浩", "腾", "勇", "雪"];
+    return `${getRandomItemFromList(firstList)}${getRandomItemFromList(secondList)}${possibility(0.66) ? getRandomItemFromList(secondList) : ""}`;
+}
+exports.getRandomName = getRandomName;
 //# sourceMappingURL=index.js.map

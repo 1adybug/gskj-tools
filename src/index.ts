@@ -33,13 +33,27 @@ export function getRandomItemFromList<T>(list: T[]): T {
 }
 
 /** 0-9集合 */
-export const digitList: string[] = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+export const digitList: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 /**
  * 获取随机手机号
  */
 export function getRandomPhone() {
-    return `13${getRandomItemFromList(digitList)}${Array(8)
+    const secondList = [3, 5, 7, 8, 9]
+
+    const thirdList: Record<string, number[]> = {
+        3: digitList,
+        5: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        7: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        8: digitList,
+        9: [1, 5, 8, 9]
+    }
+
+    const second = getRandomItemFromList(secondList)
+
+    const third = getRandomItemFromList(thirdList[second])
+
+    return `1${second}${third}${Array(8)
         .fill(0)
         .map(() => getRandomItemFromList(digitList))
         .join("")}`
@@ -274,7 +288,7 @@ export function setPeriod(callback: () => void, period: number) {
     return setInterval(callback, period)
 }
 
-/** 
+/**
  * 给数字补0
  * @param {number} number - 需要补0的数字，自然数
  * @param {number} length - 补足的长度，大于等于上一个数的位数
@@ -286,4 +300,13 @@ export function addZero(number: number, length: number = 2) {
     const lack = length - currentLength
     if (lack <= 0) return String(number)
     return `${Array(lack).fill(0).join("")}${number}`
+}
+
+/** 获取随机姓名 */
+export function getRandomName() {
+    const firstList = ["张", "李", "王", "赵", "钱", "孙", "李", "吴", "徐", "周", "庞", "关", "朱"]
+
+    const secondList = ["子", "文", "涛", "权", "明", "亮", "盛", "雨", "宇", "冰", "浩", "腾", "勇", "雪"]
+
+    return `${getRandomItemFromList(firstList)}${getRandomItemFromList(secondList)}${possibility(0.66) ? getRandomItemFromList(secondList) : ""}`
 }
