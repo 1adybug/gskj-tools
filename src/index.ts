@@ -68,7 +68,7 @@ export function getRandomPlateNoItem() {
  * @param start - 开始的两位，默认是苏H
  */
 export function getRandomPlateNo(start?: string) {
-    return `${start ?? "苏H"}${Array(5).fill(0).map(getRandomPlateNoItem)}`
+    return `${start ?? "苏H"}${Array(5).fill(0).map(getRandomPlateNoItem).join("")}`
 }
 
 /** 获取随机年份 */
