@@ -127,3 +127,20 @@ export declare function setPeriod(callback: () => void, period: number): number;
 export declare function addZero(number: number, length?: number): string;
 /** 获取随机姓名 */
 export declare function getRandomName(): string;
+/** ECharts 的配色 */
+export declare const ECHARTS_COLOR: {
+    blue: string;
+    green: string;
+    yellow: string;
+    red: string;
+    skyblue: string;
+    orange: string;
+    deepGreen: string;
+    purple: string;
+};
+/** ECharts 的配色列表 */
+export declare const ECHARTS_COLOR_LIST: string[];
+/** 一个经度的距离 */
+export declare const ONE_LNG = 92693;
+/** 一个纬度的距离 */
+export declare const ONE_LAT = 111319;

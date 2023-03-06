@@ -310,3 +310,24 @@ export function getRandomName() {
 
     return `${getRandomItemFromList(firstList)}${getRandomItemFromList(secondList)}${possibility(0.66) ? getRandomItemFromList(secondList) : ""}`
 }
+
+/** ECharts 的配色 */
+export const ECHARTS_COLOR = {
+    blue: "#5470c6",
+    green: "#91cc75",
+    yellow: "#fac858",
+    red: "#ee6666",
+    skyblue: "#73c0de",
+    orange: "#fc8452",
+    deepGreen: "#3ba172",
+    purple: "#9a60b4"
+}
+
+/** ECharts 的配色列表 */
+export const ECHARTS_COLOR_LIST = ["#ee6666", "#fac858", "#91cc75", "#5470c6", "#9a60b4", "#fc8452", "#3ba172", "#71bddb"]
+
+/** 一个经度的距离 */
+export const ONE_LNG = 92693
+
+/** 一个纬度的距离 */
+export const ONE_LAT = 111319
