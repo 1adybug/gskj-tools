@@ -373,3 +373,12 @@ export const ONE_LNG = 92693
 
 /** 一个纬度的距离 */
 export const ONE_LAT = 111319
+
+/** 得到一个函数，用于判断两个对象之间某些属性是否改变 */
+export function getPropertiesIsModified<T>(a: T, b: T): (...keyList: (keyof T)[]) => boolean {
+    return function (...keyList: (keyof T)[]) {
+        return keyList.some(key => {
+            return !equal(a[key], b[key])
+        })
+    }
+}

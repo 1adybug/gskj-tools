@@ -152,3 +152,5 @@ export declare const ECHARTS_COLOR_LIST: string[];
 export declare const ONE_LNG = 92693;
 /** 一个纬度的距离 */
 export declare const ONE_LAT = 111319;
+/** 得到一个函数，用于判断两个对象之间某些属性是否改变 */
+export declare function getPropertiesIsModified<T>(a: T, b: T): (...keyList: (keyof T)[]) => boolean;
