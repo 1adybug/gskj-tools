@@ -1,5 +1,3 @@
-import equal from "is-equal"
-
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -124,6 +122,8 @@ export function getRandomId(area?: number) {
 
 /** 判断两个数字是否相等 */
 export function twoNumberIsEqual(a: number, b: number) {
+    if (isNaN(a) && isNaN(b)) return true
+    if (a === b) return true
     return Math.abs(a - b) < Number.EPSILON
 }
 
@@ -160,6 +160,32 @@ export function getProperties<T, K extends keyof T>(obj: T, ...keyList: K[]): Pi
 }
 
 /**
+ * 判断一个变量是否是非 null 的对象
+ */
+export function isObject(a: any) {
+    return typeof a === "object" && a !== null
+}
+
+/**
+ * 比较两个变量是否相等
+ */
+export function equal(a: any, b: any): boolean {
+    if (typeof a !== typeof b) return false
+    if (isObject(a) && isObject(b)) {
+        const aKeyList = Object.keys(a)
+        const bKeyList = Object.keys(b)
+        if (aKeyList.length !== bKeyList.length) return false
+        for (const key of aKeyList) {
+            if (!bKeyList.includes(key)) return false
+            return equal(a[key], b[key])
+        }
+        return true
+    }
+    if (typeof a === "number") return twoNumberIsEqual(a, b)
+    return a === b
+}
+
+/**
  * 比较两个变量是否相等
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
@@ -178,6 +204,22 @@ export function isEqual<A = any, B = any>(a: A, b: B, ...ignoreList: (keyof A | 
     }
     return equal(a, b)
 }
+
+// export function isEqual<A = any, B = any>(a: A, b: B, ...ignoreList: (keyof A | keyof B)[]) {
+//     if (ignoreList.length > 0) {
+//         if (typeof a !== "object" || typeof b !== "object") {
+//             throw new Error("指定忽略的 key 列表时，必须比较两个对象")
+//         }
+//         const _a = structuredClone(a)
+//         const _b = structuredClone(b)
+//         ignoreList.forEach(key => {
+//             delete _a[key]
+//             delete _b[key]
+//         })
+//         return equal(_a, _b)
+//     }
+//     return equal(a, b)
+// }
 
 /**
  * 比较两个对象的某些属性

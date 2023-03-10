@@ -8,12 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.getProperties = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-const is_equal_1 = __importDefault(require("is-equal"));
+exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -140,6 +136,10 @@ function getRandomId(area) {
 exports.getRandomId = getRandomId;
 /** 判断两个数字是否相等 */
 function twoNumberIsEqual(a, b) {
+    if (isNaN(a) && isNaN(b))
+        return true;
+    if (a === b)
+        return true;
     return Math.abs(a - b) < Number.EPSILON;
 }
 exports.twoNumberIsEqual = twoNumberIsEqual;
@@ -176,6 +176,36 @@ function getProperties(obj, ...keyList) {
 }
 exports.getProperties = getProperties;
 /**
+ * 判断一个变量是否是非 null 的对象
+ */
+function isObject(a) {
+    return typeof a === "object" && a !== null;
+}
+exports.isObject = isObject;
+/**
+ * 比较两个变量是否相等
+ */
+function equal(a, b) {
+    if (typeof a !== typeof b)
+        return false;
+    if (isObject(a) && isObject(b)) {
+        const aKeyList = Object.keys(a);
+        const bKeyList = Object.keys(b);
+        if (aKeyList.length !== bKeyList.length)
+            return false;
+        for (const key of aKeyList) {
+            if (!bKeyList.includes(key))
+                return false;
+            return equal(a[key], b[key]);
+        }
+        return true;
+    }
+    if (typeof a === "number")
+        return twoNumberIsEqual(a, b);
+    return a === b;
+}
+exports.equal = equal;
+/**
  * 比较两个变量是否相等
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
@@ -190,11 +220,26 @@ function isEqual(a, b, ...ignoreList) {
             delete _a[key];
             delete _b[key];
         });
-        return (0, is_equal_1.default)(_a, _b);
+        return equal(_a, _b);
     }
-    return (0, is_equal_1.default)(a, b);
+    return equal(a, b);
 }
 exports.isEqual = isEqual;
+// export function isEqual<A = any, B = any>(a: A, b: B, ...ignoreList: (keyof A | keyof B)[]) {
+//     if (ignoreList.length > 0) {
+//         if (typeof a !== "object" || typeof b !== "object") {
+//             throw new Error("指定忽略的 key 列表时，必须比较两个对象")
+//         }
+//         const _a = structuredClone(a)
+//         const _b = structuredClone(b)
+//         ignoreList.forEach(key => {
+//             delete _a[key]
+//             delete _b[key]
+//         })
+//         return equal(_a, _b)
+//     }
+//     return equal(a, b)
+// }
 /**
  * 比较两个对象的某些属性
  * @param {string[]} keyList - 比较的 key 集合

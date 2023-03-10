@@ -63,6 +63,14 @@ export declare function getDistance(coord1: number[], coord2: number[]): number;
  */
 export declare function getProperties<T, K extends keyof T>(obj: T, ...keyList: K[]): Pick<T, K>;
 /**
+ * 判断一个变量是否是非 null 的对象
+ */
+export declare function isObject(a: any): boolean;
+/**
+ * 比较两个变量是否相等
+ */
+export declare function equal(a: any, b: any): boolean;
+/**
  * 比较两个变量是否相等
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
