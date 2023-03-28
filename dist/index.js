@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
+exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -326,6 +326,16 @@ function getAgeFromId(id) {
 }
 exports.getAgeFromId = getAgeFromId;
 /**
+ * 从身份证中获取性别，0是女性，1是男性
+ * @param {string} id - 身份证号
+ */
+function getSexFromId(id) {
+    if (!isLegalId(id))
+        throw new Error("非法身份证号");
+    return Number(id.slice(-2, -1)) % 2;
+}
+exports.getSexFromId = getSexFromId;
+/**
  * 立即执行，并且定期再执行的函数
  * @param {Function} callback - 回调函数
  * @param {number} period - 周期
@@ -385,4 +395,9 @@ function getPropertiesIsModified(a, b) {
     };
 }
 exports.getPropertiesIsModified = getPropertiesIsModified;
+/** 将数字转换为px */
+function px(x) {
+    return typeof x === "number" ? `${x}px` : undefined;
+}
+exports.px = px;
 //# sourceMappingURL=index.js.map

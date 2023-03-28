@@ -122,6 +122,11 @@ export declare function getRunAtFrame(): (fun: () => void) => void;
  */
 export declare function getAgeFromId(id: string): number;
 /**
+ * 从身份证中获取性别，0是女性，1是男性
+ * @param {string} id - 身份证号
+ */
+export declare function getSexFromId(id: string): number;
+/**
  * 立即执行，并且定期再执行的函数
  * @param {Function} callback - 回调函数
  * @param {number} period - 周期
@@ -154,3 +159,5 @@ export declare const ONE_LNG = 92693;
 export declare const ONE_LAT = 111319;
 /** 得到一个函数，用于判断两个对象之间某些属性是否改变 */
 export declare function getPropertiesIsModified<T>(a: T, b: T): (...keyList: (keyof T)[]) => boolean;
+/** 将数字转换为px */
+export declare function px(x: number | undefined | null): string | undefined;

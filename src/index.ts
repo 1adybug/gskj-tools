@@ -321,6 +321,15 @@ export function getAgeFromId(id: string) {
 }
 
 /**
+ * 从身份证中获取性别，0是女性，1是男性
+ * @param {string} id - 身份证号
+ */
+export function getSexFromId(id: string) {
+    if (!isLegalId(id)) throw new Error("非法身份证号")
+    return Number(id.slice(-2, -1)) % 2
+}
+
+/**
  * 立即执行，并且定期再执行的函数
  * @param {Function} callback - 回调函数
  * @param {number} period - 周期
@@ -381,4 +390,9 @@ export function getPropertiesIsModified<T>(a: T, b: T): (...keyList: (keyof T)[]
             return !equal(a[key], b[key])
         })
     }
+}
+
+/** 将数字转换为px */
+export function px(x: number | undefined | null) {
+    return typeof x === "number" ? `${x}px` : undefined
 }
