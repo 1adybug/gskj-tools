@@ -396,3 +396,10 @@ export function getPropertiesIsModified<T>(a: T, b: T): (...keyList: (keyof T)[]
 export function px(x: number | undefined | null) {
     return typeof x === "number" ? `${x}px` : undefined
 }
+
+/** 获得一个函数循环出来的数组 */
+export function getArray<T>(length: number, fun: (index: number) => T): T[] {
+    return Array(length)
+        .fill(0)
+        .map(($, index) => fun(index))
+}
