@@ -162,4 +162,4 @@ export declare function getPropertiesIsModified<T>(a: T, b: T): (...keyList: (ke
 /** 将数字转换为px */
 export declare function px(x: number | undefined | null): string | undefined;
 /** 获得一个函数循环出来的数组 */
-export declare function getMap<T>(length: number, fun: (index: number) => T): T[];
+export declare function getArray<T>(length: number, fun: (index: number) => T): T[];
