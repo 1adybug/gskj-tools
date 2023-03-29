@@ -179,10 +179,13 @@ export function equal(a: any, b: any): boolean {
  * 比较两个变量是否相等
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
-export function isEqual<T extends Object>(a: T, b: T, ...ignoreList: (keyof T)[]): boolean {
-    return Object.keys(a)
-        .filter(key => !ignoreList.includes(key as keyof T))
-        .every(key => equal(a[key as keyof T], b[key as keyof T]))
+export function isEqual<T>(a: T, b: T, ...ignoreList: (keyof T)[]): boolean {
+    if (typeof a === "object" && typeof b === "object" && a !== null && b !== null) {
+        return Object.keys(a)
+            .filter(key => !ignoreList.includes(key as keyof T))
+            .every(key => equal(a[key as keyof T], b[key as keyof T]))
+    }
+    return equal(a, b)
 }
 
 /**

@@ -198,9 +198,12 @@ exports.equal = equal;
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
 function isEqual(a, b, ...ignoreList) {
-    return Object.keys(a)
-        .filter(key => !ignoreList.includes(key))
-        .every(key => equal(a[key], b[key]));
+    if (typeof a === "object" && typeof b === "object" && a !== null && b !== null) {
+        return Object.keys(a)
+            .filter(key => !ignoreList.includes(key))
+            .every(key => equal(a[key], b[key]));
+    }
+    return equal(a, b);
 }
 exports.isEqual = isEqual;
 /**
