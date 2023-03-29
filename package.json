@@ -12,7 +12,9 @@
     "scripts": {
         "build": "npx tsc -p ."
     },
-    "dependencies": {},
+    "dependencies": {
+        "is-equal": "^1.6.4"
+    },
     "keywords": [],
     "devDependencies": {
         "typescript": "^4.9.5"

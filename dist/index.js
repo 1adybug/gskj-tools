@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getArray = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
+const is_equal_1 = __importDefault(require("is-equal"));
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -186,23 +190,7 @@ exports.isObject = isObject;
  * 比较两个变量是否相等
  */
 function equal(a, b) {
-    if (typeof a !== typeof b)
-        return false;
-    if (isObject(a) && isObject(b)) {
-        const aKeyList = Object.keys(a);
-        const bKeyList = Object.keys(b);
-        if (aKeyList.length !== bKeyList.length)
-            return false;
-        for (const key of aKeyList) {
-            if (!bKeyList.includes(key))
-                return false;
-            return equal(a[key], b[key]);
-        }
-        return true;
-    }
-    if (typeof a === "number")
-        return twoNumberIsEqual(a, b);
-    return a === b;
+    return (0, is_equal_1.default)(a, b);
 }
 exports.equal = equal;
 /**
@@ -210,43 +198,18 @@ exports.equal = equal;
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
 function isEqual(a, b, ...ignoreList) {
-    if (ignoreList.length > 0) {
-        if (typeof a !== "object" || typeof b !== "object") {
-            throw new Error("指定忽略的 key 列表时，必须比较两个对象");
-        }
-        const _a = structuredClone(a);
-        const _b = structuredClone(b);
-        ignoreList.forEach(key => {
-            delete _a[key];
-            delete _b[key];
-        });
-        return equal(_a, _b);
-    }
-    return equal(a, b);
+    return Object.keys(a)
+        .filter(key => !ignoreList.includes(key))
+        .every(key => equal(a[key], b[key]));
 }
 exports.isEqual = isEqual;
-// export function isEqual<A = any, B = any>(a: A, b: B, ...ignoreList: (keyof A | keyof B)[]) {
-//     if (ignoreList.length > 0) {
-//         if (typeof a !== "object" || typeof b !== "object") {
-//             throw new Error("指定忽略的 key 列表时，必须比较两个对象")
-//         }
-//         const _a = structuredClone(a)
-//         const _b = structuredClone(b)
-//         ignoreList.forEach(key => {
-//             delete _a[key]
-//             delete _b[key]
-//         })
-//         return equal(_a, _b)
-//     }
-//     return equal(a, b)
-// }
 /**
  * 比较两个对象的某些属性
  * @param {string[]} keyList - 比较的 key 集合
  */
 function compareProperties(a, b, ...keyList) {
     return keyList.every(key => {
-        return isEqual(a[key], b[key]);
+        return equal(a[key], b[key]);
     });
 }
 exports.compareProperties = compareProperties;

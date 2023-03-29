@@ -74,7 +74,7 @@ export declare function equal(a: any, b: any): boolean;
  * 比较两个变量是否相等
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
-export declare function isEqual<A = any, B = any>(a: A, b: B, ...ignoreList: (keyof A | keyof B)[]): boolean;
+export declare function isEqual<T extends Object>(a: T, b: T, ...ignoreList: (keyof T)[]): boolean;
 /**
  * 比较两个对象的某些属性
  * @param {string[]} keyList - 比较的 key 集合
