@@ -401,3 +401,18 @@ export function getPointToLineMinDistance(point: number[], line: number[][], get
             })
     )
 }
+
+/** 是否是正数 */
+export function isPositiveNumber(x: number) {
+    return typeof x === "number" && x > 0
+}
+
+/** 是否是正整数 */
+export function isPositiveInteger(x: number) {
+    return Number.isInteger(x) && x > 0
+}
+
+/** 是整数或者小数 */
+export function isNumber(x: any): x is number {
+    return typeof x === "number" && /^[\d]*\.?[\d]+$/.test(String(x))
+}

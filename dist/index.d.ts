@@ -165,3 +165,9 @@ export declare function px(x: number | undefined | null): string | undefined;
 export declare function getArray<T>(length: number, fun: (index: number) => T): T[];
 /** 获取点到线的最短距离 */
 export declare function getPointToLineMinDistance(point: number[], line: number[][], getDis?: (a: number[], b: number[]) => number): number;
+/** 是否是正数 */
+export declare function isPositiveNumber(x: number): boolean;
+/** 是否是正整数 */
+export declare function isPositiveInteger(x: number): boolean;
+/** 是整数或者小数 */
+export declare function isNumber(x: any): x is number;
