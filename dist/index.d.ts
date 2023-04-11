@@ -163,3 +163,5 @@ export declare function getPropertiesIsModified<T>(a: T, b: T): (...keyList: (ke
 export declare function px(x: number | undefined | null): string | undefined;
 /** 获得一个函数循环出来的数组 */
 export declare function getArray<T>(length: number, fun: (index: number) => T): T[];
+/** 获取点到线的最短距离 */
+export declare function getPointToLineMinDistance(point: number[], line: number[][], getDis?: (a: number[], b: number[]) => number): number;
