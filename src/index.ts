@@ -139,17 +139,31 @@ export function getDistance(coord1: number[], coord2: number[]): number {
     function toRadians(d: number) {
         return (d * Math.PI) / 180
     }
-    let [lat1, lng1] = coord1
-    if (lat1 > 90) {
-        const a = lat1
-        lat1 = lng1
-        lng1 = a
+    const [lat1, lng1] = coord1
+    if (lat1 < 0) {
+        throw new Error("经纬度1的纬度小于0°")
     }
-    let [lat2, lng2] = coord2
+    if (lat1 > 90) {
+        throw new Error("经纬度1的纬度大于90°")
+    }
+    if (lng1 < 0) {
+        throw new Error("经纬度1的经度小于0°")
+    }
+    if (lng1 > 180) {
+        throw new Error("经纬度1的经度大于180°")
+    }
+    const [lat2, lng2] = coord2
+    if (lat2 < 0) {
+        throw new Error("经纬度2的纬度小于0°")
+    }
     if (lat2 > 90) {
-        const a = lat2
-        lat2 = lng2
-        lng2 = a
+        throw new Error("经纬度2的纬度大于90°")
+    }
+    if (lng2 < 0) {
+        throw new Error("经纬度2的经度小于0°")
+    }
+    if (lng2 > 180) {
+        throw new Error("经纬度2的经度大于180°")
     }
     const radLat1 = toRadians(lat1)
     const radLat2 = toRadians(lat2)
