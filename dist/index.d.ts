@@ -52,8 +52,9 @@ export declare function getRandomId(area?: number): string;
 export declare function twoNumberIsEqual(a: number, b: number): boolean;
 /**
  * 获取两个经纬度坐标之间的距离
- * @param {number[]} coord1 - 经纬度一
- * @param {number[]} coord2 - 经纬度二
+ * @param {number[]} coord1 - 经纬度一，[维度, 经度]
+ * @param {number[]} coord2 - 经纬度二，[维度, 经度]
+ * @returns {number} 距离：米
  */
 export declare function getDistance(coord1: number[], coord2: number[]): number;
 /**

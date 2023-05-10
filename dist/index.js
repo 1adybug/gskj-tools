@@ -149,21 +149,32 @@ function twoNumberIsEqual(a, b) {
 exports.twoNumberIsEqual = twoNumberIsEqual;
 /**
  * 获取两个经纬度坐标之间的距离
- * @param {number[]} coord1 - 经纬度一
- * @param {number[]} coord2 - 经纬度二
+ * @param {number[]} coord1 - 经纬度一，[维度, 经度]
+ * @param {number[]} coord2 - 经纬度二，[维度, 经度]
+ * @returns {number} 距离：米
  */
 function getDistance(coord1, coord2) {
-    const [lng1, lat1] = coord1;
-    const [lng2, lat2] = coord2;
     function toRadians(d) {
         return (d * Math.PI) / 180;
+    }
+    let [lat1, lng1] = coord1;
+    if (lat1 > 90) {
+        const a = lat1;
+        lat1 = lng1;
+        lng1 = a;
+    }
+    let [lat2, lng2] = coord2;
+    if (lat2 > 90) {
+        const a = lat2;
+        lat2 = lng2;
+        lng2 = a;
     }
     const radLat1 = toRadians(lat1);
     const radLat2 = toRadians(lat2);
     const deltaLat = radLat1 - radLat2;
     const deltaLng = toRadians(lng1) - toRadians(lng2);
     const dis = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(deltaLat / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(deltaLng / 2), 2)));
-    return dis * 6378.137;
+    return dis * 6378137;
 }
 exports.getDistance = getDistance;
 /**
