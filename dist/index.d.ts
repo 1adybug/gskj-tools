@@ -162,6 +162,8 @@ export declare const ONE_LAT = 111319;
 export declare function getPropertiesIsModified<T>(a: T, b: T): (...keyList: (keyof T)[]) => boolean;
 /** 将数字转换为px */
 export declare function px(x: number | undefined | null): string | undefined;
+/** 将字符串或者数字转换为尺寸 */
+export declare function size(x: string | number | undefined | null): string | undefined;
 /** 获得一个函数循环出来的数组 */
 export declare function getArray<T>(length: number, fun: (index: number) => T): T[];
 /** 获取点到线的最短距离 */

@@ -389,6 +389,11 @@ export function px(x: number | undefined | null) {
     return typeof x === "number" ? `${x}px` : undefined
 }
 
+/** 将字符串或者数字转换为尺寸 */
+export function size(x: string | number | undefined | null) {
+    return typeof x === "string" ? x : typeof x === "number" ? `${x}px` : undefined
+}
+
 /** 获得一个函数循环出来的数组 */
 export function getArray<T>(length: number, fun: (index: number) => T): T[] {
     return Array(length)
