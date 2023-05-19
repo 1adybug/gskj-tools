@@ -58,6 +58,15 @@ export declare function twoNumberIsEqual(a: number, b: number): boolean;
  */
 export declare function getDistance(coord1: number[], coord2: number[]): number;
 /**
+ * 获取两个经纬度坐标之间的距离
+ * @param {number[]} coord1 - 经纬度一，[维度, 经度]
+ * @param {number[]} coord2 - 经纬度二，[维度, 经度]
+ * @param {number} d1 - 距离一，单位：米
+ * @param {number} d2 - 距离二，单位：米
+ * @returns {number[][]} - 可能的两个坐标
+ */
+export declare function getCoord(coord1: number[], coord2: number[], d1: number, d2: number): number[][];
+/**
  * 获取对象的某些属性
  * @param {object} obj - 对象
  * @param {string[]} keyList - 需要取出的 key 集合

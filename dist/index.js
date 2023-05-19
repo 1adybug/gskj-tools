@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
+exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 /**
  * 休眠指定时间
@@ -192,6 +192,37 @@ function getDistance(coord1, coord2) {
 }
 exports.getDistance = getDistance;
 /**
+ * 获取两个经纬度坐标之间的距离
+ * @param {number[]} coord1 - 经纬度一，[维度, 经度]
+ * @param {number[]} coord2 - 经纬度二，[维度, 经度]
+ * @param {number} d1 - 距离一，单位：米
+ * @param {number} d2 - 距离二，单位：米
+ * @returns {number[][]} - 可能的两个坐标
+ */
+function getCoord(coord1, coord2, d1, d2) {
+    const [lat1, lng1] = coord1;
+    const [lat2, lng2] = coord2;
+    const [m, n] = [lat2 - lat1, lng2 - lng1];
+    const s = getDistance(coord1, [lat2, lng1]) / m;
+    const t = getDistance(coord1, [lat1, lng2]) / n;
+    const e = m * s;
+    const f = n * t;
+    const g = -e / f;
+    const h = (e ** 2 + f ** 2 + d1 ** 2 - d2 ** 2) / (2 * f);
+    const a = g ** 2 + 1;
+    const b = 2 * g * h;
+    const c = h ** 2 - d1 ** 2;
+    const ox1 = (-b + (b ** 2 - 4 * a * c) ** (1 / 2)) / (2 * a);
+    const oy1 = g * ox1 + h;
+    const ox2 = (-b - (b ** 2 - 4 * a * c) ** (1 / 2)) / (2 * a);
+    const oy2 = g * ox2 + h;
+    return [
+        [ox1 / s + lat1, oy1 / t + lng1],
+        [ox2 / s + lat1, oy2 / t + lng1]
+    ];
+}
+exports.getCoord = getCoord;
+/**
  * 获取对象的某些属性
  * @param {object} obj - 对象
  * @param {string[]} keyList - 需要取出的 key 集合
@@ -223,7 +254,7 @@ exports.equal = equal;
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
 function isEqual(a, b, ...ignoreList) {
-    if (typeof a === "object" && typeof b === "object" && a !== null && b !== null) {
+    if (typeof a === "object" && !Array.isArray(a) && typeof b === "object" && !Array.isArray(b) && a !== null && b !== null) {
         return Object.keys(a)
             .filter(key => !ignoreList.includes(key))
             .every(key => equal(a[key], b[key]));
