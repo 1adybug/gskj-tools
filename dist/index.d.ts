@@ -202,10 +202,23 @@ export interface CoordObj4 {
     longitude: string;
 }
 export declare function coordIsNumberArray(coord: number[] | string[]): coord is number[];
+/** 检查坐标是否合法，合法则返回正确的坐标 */
 export declare function coordCheck(coord: number[]): number[];
 /** 将坐标信息转换为真实坐标，即`[维度, 经度]`的格式 */
 export declare function getRealCoord(coord: number[] | string | string[] | CoordObj1 | CoordObj2 | CoordObj3 | CoordObj4): number[];
 export type StringCoord = `${number},${number}`;
+/** 将任意格式的坐标转换为51坐标 */
 export declare function get51Coord(coord: number[] | string | string[] | CoordObj1 | CoordObj2 | CoordObj3 | CoordObj4): StringCoord;
+/** 将浏览器中直接复制的 headers 转换为对象 */
 export declare function getHeaders(headers: string): Record<string, string>;
+/**
+ * 判断两个线段是否相交
+ * @param {number[][]} line1 - 线段一
+ * @param {number[][]} line2 - 线段二
+ */
 export declare function ifTwoSegmentsIntersect(line1: number[][], line2: number[][]): boolean;
+/**
+ * 判断多个点能否围成多边形
+ * @param {number[][]} coords - 多边形的顶点
+ */
+export declare function canCoordsBePolygon(coords: number[][]): boolean;

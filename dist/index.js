@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
+exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
 /**
@@ -519,6 +519,7 @@ function coordIsNumberArray(coord) {
     throw new Error(`${JSON.stringify(coord)} 的类型有误`);
 }
 exports.coordIsNumberArray = coordIsNumberArray;
+/** 检查坐标是否合法，合法则返回正确的坐标 */
 function coordCheck(coord) {
     if (coord.length !== 2)
         throw new Error(`${JSON.stringify(coord)} 的长度不为2`);
@@ -565,11 +566,13 @@ function getRealCoord(coord) {
     throw new Error(`${coord} 的格式有误`);
 }
 exports.getRealCoord = getRealCoord;
+/** 将任意格式的坐标转换为51坐标 */
 function get51Coord(coord) {
     const [y, x] = getRealCoord(coord);
     return `${x},${y}`;
 }
 exports.get51Coord = get51Coord;
+/** 将浏览器中直接复制的 headers 转换为对象 */
 function getHeaders(headers) {
     const result = {};
     headers
@@ -588,10 +591,37 @@ function getHeaders(headers) {
     return result;
 }
 exports.getHeaders = getHeaders;
+/**
+ * 判断两个线段是否相交
+ * @param {number[][]} line1 - 线段一
+ * @param {number[][]} line2 - 线段二
+ */
 function ifTwoSegmentsIntersect(line1, line2) {
     const [a, b] = line1;
     const [c, d] = line2;
     return (0, robust_segment_intersect_1.default)(a, b, c, d);
 }
 exports.ifTwoSegmentsIntersect = ifTwoSegmentsIntersect;
+/**
+ * 判断多个点能否围成多边形
+ * @param {number[][]} coords - 多边形的顶点
+ */
+function canCoordsBePolygon(coords) {
+    const { length } = coords;
+    if (length < 3)
+        return false;
+    const lines = coords.map((coord, index) => [coord, coords[(index + 1) % length]]);
+    for (let i = 0; i < length; i++) {
+        for (let j = i + 2; j < length; j++) {
+            if (i === 0 && j === length - 1) {
+                continue;
+            }
+            if (ifTwoSegmentsIntersect(lines[i], lines[j])) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+exports.canCoordsBePolygon = canCoordsBePolygon;
 //# sourceMappingURL=index.js.map

@@ -523,6 +523,7 @@ export function coordIsNumberArray(coord: number[] | string[]): coord is number[
     throw new Error(`${JSON.stringify(coord)} 的类型有误`)
 }
 
+/** 检查坐标是否合法，合法则返回正确的坐标 */
 export function coordCheck(coord: number[]): number[] {
     if (coord.length !== 2) throw new Error(`${JSON.stringify(coord)} 的长度不为2`)
     if (typeof coord[0] !== "number" || isNaN(coord[0]) || typeof coord[1] !== "number" || isNaN(coord[1])) throw new Error(`${JSON.stringify(coord)} 的类型有误`)
@@ -568,11 +569,13 @@ export function getRealCoord(coord: number[] | string | string[] | CoordObj1 | C
 
 export type StringCoord = `${number},${number}`
 
+/** 将任意格式的坐标转换为51坐标 */
 export function get51Coord(coord: number[] | string | string[] | CoordObj1 | CoordObj2 | CoordObj3 | CoordObj4): StringCoord {
     const [y, x] = getRealCoord(coord)
     return `${x},${y}`
 }
 
+/** 将浏览器中直接复制的 headers 转换为对象 */
 export function getHeaders(headers: string): Record<string, string> {
     const result: Record<string, string> = {}
     headers
@@ -591,8 +594,34 @@ export function getHeaders(headers: string): Record<string, string> {
     return result
 }
 
+/** 
+ * 判断两个线段是否相交
+ * @param {number[][]} line1 - 线段一
+ * @param {number[][]} line2 - 线段二
+ */
 export function ifTwoSegmentsIntersect(line1: number[][], line2: number[][]) {
     const [a, b] = line1
     const [c, d] = line2
     return robustSegmentIntersect(a, b, c, d)
+}
+
+/** 
+ * 判断多个点能否围成多边形
+ * @param {number[][]} coords - 多边形的顶点
+ */
+export function canCoordsBePolygon(coords: number[][]) {
+    const { length } = coords
+    if (length < 3) return false
+    const lines = coords.map((coord, index) => [coord, coords[(index + 1) % length]])
+    for (let i = 0; i < length; i++) {
+        for (let j = i + 2; j < length; j++) {
+            if (i === 0 && j === length - 1) {
+                continue
+            }
+            if (ifTwoSegmentsIntersect(lines[i], lines[j])) {
+                return false
+            }
+        }
+    }
+    return true
 }
