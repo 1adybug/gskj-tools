@@ -12,7 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
+exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
+exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 /**
  * 休眠指定时间
@@ -485,4 +486,104 @@ function isNumber(x) {
     return typeof x === "number" && /^[\d]*\.?[\d]+$/.test(String(x));
 }
 exports.isNumber = isNumber;
+function parseNumber(str) {
+    const result = Number(str);
+    if (isNaN(result))
+        throw new Error(`${str} 不可以被转换为数字`);
+    if (String(result) !== str)
+        console.warn(`${str} 转换为 ${result}`);
+    return result;
+}
+exports.parseNumber = parseNumber;
+function coordStringToNumber(str) {
+    if (str.includes(":")) {
+        const strs = str.split(":");
+        if (strs.length !== 3)
+            throw new Error(`${str} 不可以被转换为数字`);
+        const nums = strs.map(parseNumber);
+        const [x, y, z] = nums;
+        return x + y / 60 + z / 3600;
+    }
+    return parseNumber(str);
+}
+exports.coordStringToNumber = coordStringToNumber;
+function coordIsNumberArray(coord) {
+    if (coord.length !== 2)
+        throw new Error(`${JSON.stringify(coord)} 的长度不为2`);
+    if (typeof coord[0] === "number" && typeof coord[1] === "number")
+        return true;
+    if (typeof coord[0] === "string" && typeof coord[1] === "string")
+        return false;
+    throw new Error(`${JSON.stringify(coord)} 的类型有误`);
+}
+exports.coordIsNumberArray = coordIsNumberArray;
+function coordCheck(coord) {
+    if (coord.length !== 2)
+        throw new Error(`${JSON.stringify(coord)} 的长度不为2`);
+    if (typeof coord[0] !== "number" || isNaN(coord[0]) || typeof coord[1] !== "number" || isNaN(coord[1]))
+        throw new Error(`${JSON.stringify(coord)} 的类型有误`);
+    const [y, x] = coord;
+    if (Math.abs(y) <= 90 && Math.abs(x) <= 180) {
+        return [y, x];
+    }
+    if (Math.abs(x) <= 90 && Math.abs(y) <= 180) {
+        throw new Error(`${JSON.stringify(coord)} 似乎将经纬度互换，请检查是否有误`);
+    }
+    throw new Error(`${JSON.stringify(coord)} 的经纬度超出范围`);
+}
+exports.coordCheck = coordCheck;
+/** 将坐标信息转换为真实坐标，即`[维度, 经度]`的格式 */
+function getRealCoord(coord) {
+    if (typeof coord === "string") {
+        const reg = /^[0-9a-z]+$/;
+        const nums = coord
+            .replace(/\:/g, "colon")
+            .replace(/\-/g, "minus")
+            .replace(/\./g, "point")
+            .split(/\b/)
+            .filter(str => reg.test(str))
+            .map(str => str.replace(/colon/g, ":").replace(/minus/g, "-").replace(/point/g, "."))
+            .map(coordStringToNumber);
+        if (nums.length !== 2)
+            throw new Error(`${coord} 的格式有误`);
+        return coordCheck(nums);
+    }
+    if (Array.isArray(coord)) {
+        if (coordIsNumberArray(coord)) {
+            return coordCheck(coord);
+        }
+        return coordCheck(coord.map(coordStringToNumber));
+    }
+    if ("lat" in coord && "lng" in coord) {
+        return getRealCoord([coord.lat, coord.lng]);
+    }
+    if ("latitude" in coord && "longitude" in coord) {
+        return getRealCoord([coord.latitude, coord.longitude]);
+    }
+    throw new Error(`${coord} 的格式有误`);
+}
+exports.getRealCoord = getRealCoord;
+function get51Coord(coord) {
+    const [y, x] = getRealCoord(coord);
+    return `${x},${y}`;
+}
+exports.get51Coord = get51Coord;
+function getHeaders(headers) {
+    const result = {};
+    headers
+        .split("\n")
+        .map(str => str.trim())
+        .filter(str => str && !str.startsWith(":"))
+        .forEach(str => {
+        const index = str.indexOf(":");
+        if (index < 1) {
+            throw new Error(`无效的字段${str}`);
+        }
+        const key = str.slice(0, index).trim();
+        const value = str.slice(index + 1).trim();
+        result[key] = value;
+    });
+    return result;
+}
+exports.getHeaders = getHeaders;
 //# sourceMappingURL=index.js.map

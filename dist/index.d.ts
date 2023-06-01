@@ -183,3 +183,28 @@ export declare function isPositiveNumber(x: number): boolean;
 export declare function isPositiveInteger(x: number): boolean;
 /** 是整数或者小数 */
 export declare function isNumber(x: any): x is number;
+export declare function parseNumber(str: string): number;
+export declare function coordStringToNumber(str: string): number;
+export interface CoordObj1 {
+    lat: number;
+    lng: number;
+}
+export interface CoordObj2 {
+    latitude: number;
+    longitude: number;
+}
+export interface CoordObj3 {
+    lat: string;
+    lng: string;
+}
+export interface CoordObj4 {
+    latitude: string;
+    longitude: string;
+}
+export declare function coordIsNumberArray(coord: number[] | string[]): coord is number[];
+export declare function coordCheck(coord: number[]): number[];
+/** 将坐标信息转换为真实坐标，即`[维度, 经度]`的格式 */
+export declare function getRealCoord(coord: number[] | string | string[] | CoordObj1 | CoordObj2 | CoordObj3 | CoordObj4): number[];
+export type StringCoord = `${number},${number}`;
+export declare function get51Coord(coord: number[] | string | string[] | CoordObj1 | CoordObj2 | CoordObj3 | CoordObj4): StringCoord;
+export declare function getHeaders(headers: string): Record<string, string>;
