@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.isEqual = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-exports.getHeaders = void 0;
+exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
+exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
+const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -254,20 +255,21 @@ exports.equal = equal;
  * 比较两个变量是否相等
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
-function isEqual(a, b, ...ignoreList) {
-    if (typeof a === "object" && !Array.isArray(a) && typeof b === "object" && !Array.isArray(b) && a !== null && b !== null) {
-        return Object.keys(a)
-            .filter(key => !ignoreList.includes(key))
-            .every(key => equal(a[key], b[key]));
-    }
-    return equal(a, b);
+function compareWithoutProperties(a, b, ...ignoreList) {
+    if (ignoreList.length === 0)
+        throw new Error(`ignoreList 为空`);
+    return Object.keys(a)
+        .filter(key => !ignoreList.includes(key))
+        .every(key => equal(a[key], b[key]));
 }
-exports.isEqual = isEqual;
+exports.compareWithoutProperties = compareWithoutProperties;
 /**
  * 比较两个对象的某些属性
  * @param {string[]} keyList - 比较的 key 集合
  */
 function compareProperties(a, b, ...keyList) {
+    if (keyList.length === 0)
+        throw new Error(`keyList 为空`);
     return keyList.every(key => {
         return equal(a[key], b[key]);
     });
@@ -586,4 +588,10 @@ function getHeaders(headers) {
     return result;
 }
 exports.getHeaders = getHeaders;
+function ifTwoSegmentsIntersect(line1, line2) {
+    const [a, b] = line1;
+    const [c, d] = line2;
+    return (0, robust_segment_intersect_1.default)(a, b, c, d);
+}
+exports.ifTwoSegmentsIntersect = ifTwoSegmentsIntersect;
 //# sourceMappingURL=index.js.map

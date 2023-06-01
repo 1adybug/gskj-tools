@@ -84,12 +84,12 @@ export declare function equal(a: any, b: any): boolean;
  * 比较两个变量是否相等
  * @param {string[]} ignoreList - 忽略的 key 集合
  */
-export declare function isEqual<T>(a: T, b: T, ...ignoreList: (keyof T)[]): boolean;
+export declare function compareWithoutProperties<T extends Object>(a: T, b: T, ...ignoreList: (keyof T)[]): boolean;
 /**
  * 比较两个对象的某些属性
  * @param {string[]} keyList - 比较的 key 集合
  */
-export declare function compareProperties<T>(a: T, b: T, ...keyList: (keyof T)[]): boolean;
+export declare function compareProperties<T extends Object>(a: T, b: T, ...keyList: (keyof T)[]): boolean;
 /** 身份证正则 */
 export declare const idReg: RegExp;
 /**
@@ -208,3 +208,4 @@ export declare function getRealCoord(coord: number[] | string | string[] | Coord
 export type StringCoord = `${number},${number}`;
 export declare function get51Coord(coord: number[] | string | string[] | CoordObj1 | CoordObj2 | CoordObj3 | CoordObj4): StringCoord;
 export declare function getHeaders(headers: string): Record<string, string>;
+export declare function ifTwoSegmentsIntersect(line1: number[][], line2: number[][]): boolean;
