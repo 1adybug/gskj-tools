@@ -627,16 +627,19 @@ export function canCoordsBePolygon(coords: number[][]) {
 }
 
 /** 为数组添加方法 */
-function extendArrayPrototype() {
+export function extendArrayPrototype() {
     if (!Array.prototype.hasOwnProperty("with")) {
-        Array.prototype.with = function <T>(this: T[], index: number, value: T): T[] {
-            if (index >= this.length) {
-                throw new RangeError(`Invalid index : ${index}`)
+        class A {
+            static with<T>(this: T[], index: number, value: T): T[] {
+                if (index >= this.length) {
+                    throw new RangeError(`Invalid index : ${index}`)
+                }
+                const $ = [...this]
+                $[index] = value
+                return $
             }
-            const $ = [...this]
-            $[index] = value
-            return $
         }
+        Array.prototype.with = A.with
     }
     if (!Array.prototype.hasOwnProperty("toReversed")) {
         function toReversed<T>(this: T[]): T[] {

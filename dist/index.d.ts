@@ -222,3 +222,5 @@ export declare function ifTwoSegmentsIntersect(line1: number[][], line2: number[
  * @param {number[][]} coords - 多边形的顶点
  */
 export declare function canCoordsBePolygon(coords: number[][]): boolean;
+/** 为数组添加方法 */
+export declare function extendArrayPrototype(): void;
