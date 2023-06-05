@@ -630,6 +630,9 @@ export function canCoordsBePolygon(coords: number[][]) {
 function extendArrayPrototype() {
     if (!Array.prototype.hasOwnProperty("with")) {
         Array.prototype.with = function <T>(this: T[], index: number, value: T): T[] {
+            if (index >= this.length) {
+                throw new RangeError(`Invalid index : ${index}`)
+            }
             const $ = [...this]
             $[index] = value
             return $

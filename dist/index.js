@@ -628,6 +628,9 @@ exports.canCoordsBePolygon = canCoordsBePolygon;
 function extendArrayPrototype() {
     if (!Array.prototype.hasOwnProperty("with")) {
         Array.prototype.with = function (index, value) {
+            if (index >= this.length) {
+                throw new RangeError(`Invalid index : ${index}`);
+            }
             const $ = [...this];
             $[index] = value;
             return $;
