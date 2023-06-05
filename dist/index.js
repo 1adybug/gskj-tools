@@ -644,6 +644,22 @@ function extendArrayPrototype() {
         }
         Array.prototype.toReversed = toReversed;
     }
+    if (!Array.prototype.hasOwnProperty("toShifted")) {
+        function toShifted() {
+            const $ = [...this];
+            $.shift();
+            return $;
+        }
+        Array.prototype.toShifted = toShifted;
+    }
+    if (!Array.prototype.hasOwnProperty("toPopped")) {
+        function toPopped() {
+            const $ = [...this];
+            $.pop();
+            return $;
+        }
+        Array.prototype.toPopped = toPopped;
+    }
     if (!Array.prototype.hasOwnProperty("toSorted")) {
         function toSorted(compareFn) {
             const $ = [...this];
@@ -664,6 +680,22 @@ function extendArrayPrototype() {
             return $;
         }
         Array.prototype.toSpliced = toSpliced;
+    }
+    if (!Array.prototype.hasOwnProperty("toPushed")) {
+        function toPushed(...items) {
+            const $ = [...this];
+            $.push(...items);
+            return $;
+        }
+        Array.prototype.toPushed = toPushed;
+    }
+    if (!Array.prototype.hasOwnProperty("toUnshifted")) {
+        function toUnshifted(...items) {
+            const $ = [...this];
+            $.unshift(...items);
+            return $;
+        }
+        Array.prototype.toUnshifted = toUnshifted;
     }
 }
 //# sourceMappingURL=index.js.map

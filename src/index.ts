@@ -646,6 +646,22 @@ function extendArrayPrototype() {
         }
         Array.prototype.toReversed = toReversed
     }
+    if (!Array.prototype.hasOwnProperty("toShifted")) {
+        function toShifted<T>(this: T[]): T[] {
+            const $ = [...this]
+            $.shift()
+            return $
+        }
+        Array.prototype.toShifted = toShifted
+    }
+    if (!Array.prototype.hasOwnProperty("toPopped")) {
+        function toPopped<T>(this: T[]): T[] {
+            const $ = [...this]
+            $.pop()
+            return $
+        }
+        Array.prototype.toPopped = toPopped
+    }
     if (!Array.prototype.hasOwnProperty("toSorted")) {
         function toSorted<T>(this: T[], compareFn?: (a: T, b: T) => number): T[] {
             const $ = [...this]
@@ -665,5 +681,21 @@ function extendArrayPrototype() {
             return $
         }
         Array.prototype.toSpliced = toSpliced
+    }
+    if (!Array.prototype.hasOwnProperty("toPushed")) {
+        function toPushed<T>(this: T[], ...items: T[]): T[] {
+            const $ = [...this]
+            $.push(...items)
+            return $
+        }
+        Array.prototype.toPushed = toPushed
+    }
+    if (!Array.prototype.hasOwnProperty("toUnshifted")) {
+        function toUnshifted<T>(this: T[], ...items: T[]): T[] {
+            const $ = [...this]
+            $.unshift(...items)
+            return $
+        }
+        Array.prototype.toUnshifted = toUnshifted
     }
 }
