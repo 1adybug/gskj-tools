@@ -594,7 +594,7 @@ export function getHeaders(headers: string): Record<string, string> {
     return result
 }
 
-/** 
+/**
  * 判断两个线段是否相交
  * @param {number[][]} line1 - 线段一
  * @param {number[][]} line2 - 线段二
@@ -605,7 +605,7 @@ export function ifTwoSegmentsIntersect(line1: number[][], line2: number[][]) {
     return robustSegmentIntersect(a, b, c, d)
 }
 
-/** 
+/**
  * 判断多个点能否围成多边形
  * @param {number[][]} coords - 多边形的顶点
  */
@@ -624,4 +624,43 @@ export function canCoordsBePolygon(coords: number[][]) {
         }
     }
     return true
+}
+
+/** 为数组添加方法 */
+function extendArrayPrototype() {
+    if (!Array.prototype.hasOwnProperty("with")) {
+        Array.prototype.with = function <T>(this: T[], index: number, value: T): T[] {
+            const $ = [...this]
+            $[index] = value
+            return $
+        }
+    }
+    if (!Array.prototype.hasOwnProperty("toReversed")) {
+        function toReversed<T>(this: T[]): T[] {
+            const $ = [...this]
+            $.reverse()
+            return $
+        }
+        Array.prototype.toReversed = toReversed
+    }
+    if (!Array.prototype.hasOwnProperty("toSorted")) {
+        function toSorted<T>(this: T[], compareFn?: (a: T, b: T) => number): T[] {
+            const $ = [...this]
+            $.sort(compareFn)
+            return $
+        }
+        Array.prototype.toSorted = toSorted
+    }
+    if (!Array.prototype.hasOwnProperty("toSpliced")) {
+        function toSpliced<T>(this: T[], start: number, deleteCount?: number, ...items: T[]): T[] {
+            const $ = [...this]
+            if (deleteCount === undefined) {
+                $.splice(start)
+            } else {
+                $.splice(start, deleteCount, ...items)
+            }
+            return $
+        }
+        Array.prototype.toSpliced = toSpliced
+    }
 }

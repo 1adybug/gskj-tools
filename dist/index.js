@@ -624,4 +624,43 @@ function canCoordsBePolygon(coords) {
     return true;
 }
 exports.canCoordsBePolygon = canCoordsBePolygon;
+/** 为数组添加方法 */
+function extendArrayPrototype() {
+    if (!Array.prototype.hasOwnProperty("with")) {
+        Array.prototype.with = function (index, value) {
+            const $ = [...this];
+            $[index] = value;
+            return $;
+        };
+    }
+    if (!Array.prototype.hasOwnProperty("toReversed")) {
+        function toReversed() {
+            const $ = [...this];
+            $.reverse();
+            return $;
+        }
+        Array.prototype.toReversed = toReversed;
+    }
+    if (!Array.prototype.hasOwnProperty("toSorted")) {
+        function toSorted(compareFn) {
+            const $ = [...this];
+            $.sort(compareFn);
+            return $;
+        }
+        Array.prototype.toSorted = toSorted;
+    }
+    if (!Array.prototype.hasOwnProperty("toSpliced")) {
+        function toSpliced(start, deleteCount, ...items) {
+            const $ = [...this];
+            if (deleteCount === undefined) {
+                $.splice(start);
+            }
+            else {
+                $.splice(start, deleteCount, ...items);
+            }
+            return $;
+        }
+        Array.prototype.toSpliced = toSpliced;
+    }
+}
 //# sourceMappingURL=index.js.map
