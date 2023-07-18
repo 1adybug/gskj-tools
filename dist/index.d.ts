@@ -224,3 +224,5 @@ export declare function ifTwoSegmentsIntersect(line1: number[][], line2: number[
 export declare function canCoordsBePolygon(coords: number[][]): boolean;
 /** 为数组添加方法 */
 export declare function extendArrayPrototype(): void;
+/** 创建 cookie 的存储 */
+export declare function createCookieStorage(): Storage;

@@ -720,7 +720,7 @@ export function extendArrayPrototype() {
 }
 
 /** 创建 cookie 的存储 */
-function createCookieStorage(): Storage {
+export function createCookieStorage(): Storage {
     const cookieStorage: Storage = {
         get length() {
             return Object.keys(Cookies.get() || {}).length
