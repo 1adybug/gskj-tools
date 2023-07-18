@@ -7,6 +7,8 @@ interface Array<T> {
     toSpliced(this: Array<T>, start: number, deleteCount?: number, ...items: T[]): Array<T>
     toPushed(this: Array<T>, ...items: T[]): Array<T>
     toUnshifted(this: Array<T>, ...items: T[]): Array<T>
+    toExchange(this: Array<T>, a: number, b: number): Array<T>
+    at(this: Array<T>, index: number): T | undefined
 }
 
 declare interface Window {

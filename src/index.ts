@@ -631,11 +631,11 @@ export function extendArrayPrototype() {
     if (!Array.prototype.hasOwnProperty("with")) {
         class A {
             static with<T>(this: T[], index: number, value: T): T[] {
-                if (index >= this.length) {
+                if (!Number.isInteger(index) || index >= this.length || index < this.length * -1) {
                     throw new RangeError(`Invalid index : ${index}`)
                 }
                 const $ = [...this]
-                $[index] = value
+                $[index >= 0 ? index : this.length + index] = value
                 return $
             }
         }
@@ -700,5 +700,20 @@ export function extendArrayPrototype() {
             return $
         }
         Array.prototype.toUnshifted = toUnshifted
+    }
+    if (!Array.prototype.hasOwnProperty("toExchange")) {
+        function toExchange<T>(this: T[], a: number, b: number): T[] {
+            return this.with(a, this[b]).with(b, this[a])
+        }
+        Array.prototype.toExchange = toExchange
+    }
+    if (!Array.prototype.hasOwnProperty("at")) {
+        function at<T>(this: T[], index: number): T | undefined {
+            if (!Number.isInteger(index)) {
+                throw new RangeError(`Invalid index : ${index}`)
+            }
+            return this[index >= 0 ? index : this.length + index]
+        }
+        Array.prototype.at = at
     }
 }
