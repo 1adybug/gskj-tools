@@ -16,6 +16,7 @@ exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIs
 exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
+const js_cookie_1 = __importDefault(require("js-cookie"));
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -717,4 +718,29 @@ function extendArrayPrototype() {
     }
 }
 exports.extendArrayPrototype = extendArrayPrototype;
+/** 创建 cookie 的存储 */
+function createCookieStorage() {
+    const cookieStorage = {
+        get length() {
+            return Object.keys(js_cookie_1.default.get() || {}).length;
+        },
+        clear() {
+            var _a;
+            (_a = Object.keys(js_cookie_1.default.get() || {})) === null || _a === void 0 ? void 0 : _a.forEach(key => js_cookie_1.default.remove(key));
+        },
+        getItem(key) {
+            return js_cookie_1.default.get(key) || null;
+        },
+        setItem(key, value) {
+            js_cookie_1.default.set(key, value);
+        },
+        key(index) {
+            return Object.keys(js_cookie_1.default.get())[index];
+        },
+        removeItem(key) {
+            js_cookie_1.default.remove(key);
+        }
+    };
+    return cookieStorage;
+}
 //# sourceMappingURL=index.js.map

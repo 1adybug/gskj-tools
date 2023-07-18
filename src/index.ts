@@ -1,5 +1,6 @@
 import Equal from "is-equal"
 import robustSegmentIntersect from "robust-segment-intersect"
+import Cookies from "js-cookie"
 
 /**
  * 休眠指定时间
@@ -716,4 +717,29 @@ export function extendArrayPrototype() {
         }
         Array.prototype.at = at
     }
+}
+
+/** 创建 cookie 的存储 */
+function createCookieStorage(): Storage {
+    const cookieStorage: Storage = {
+        get length() {
+            return Object.keys(Cookies.get() || {}).length
+        },
+        clear() {
+            Object.keys(Cookies.get() || {})?.forEach(key => Cookies.remove(key))
+        },
+        getItem(key) {
+            return Cookies.get(key) || null
+        },
+        setItem(key, value) {
+            Cookies.set(key, value)
+        },
+        key(index) {
+            return Object.keys(Cookies.get())[index]
+        },
+        removeItem(key) {
+            Cookies.remove(key)
+        }
+    }
+    return cookieStorage
 }
