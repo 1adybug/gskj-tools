@@ -8,6 +8,7 @@ interface Array<T> {
     toPushed(this: Array<T>, ...items: T[]): Array<T>
     toUnshifted(this: Array<T>, ...items: T[]): Array<T>
     toExchange(this: Array<T>, a: number, b: number): Array<T>
+    toDeduplicated(this: Array<T>, compareFn?: (a: T, b: T) => boolean): Array<T>
     at(this: Array<T>, index: number): T | undefined
 }
 

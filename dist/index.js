@@ -672,6 +672,20 @@ function extendArrayPrototype() {
         }
         Array.prototype.toSorted = toSorted;
     }
+    if (!Array.prototype.hasOwnProperty("toDeduplicated")) {
+        function toDeduplicated(compareFn) {
+            if (!compareFn)
+                return Array.from(new Set(this));
+            const $ = [];
+            this.forEach(item => {
+                if ($.some(it => compareFn(item, it)))
+                    return;
+                $.push(item);
+            });
+            return $;
+        }
+        Array.prototype.toDeduplicated = toDeduplicated;
+    }
     if (!Array.prototype.hasOwnProperty("toSpliced")) {
         function toSpliced(start, deleteCount, ...items) {
             const $ = [...this];
