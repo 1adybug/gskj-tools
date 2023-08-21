@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
+exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
 const js_cookie_1 = __importDefault(require("js-cookie"));
@@ -758,4 +758,33 @@ function createCookieStorage() {
     return cookieStorage;
 }
 exports.createCookieStorage = createCookieStorage;
+/**
+ * base64 转 blob
+ * @param {string} base64 需要转换的 base64
+ * @returns {Blob}
+ */
+function base64ToBlob(base64) {
+    const bytes = atob(base64.split(",")[1]);
+    const array = new Uint8Array(bytes.length);
+    const mime = base64.match(/^data:(.*?);/)[1];
+    for (let i = 0; i < bytes.length; i++) {
+        array[i] = bytes.charCodeAt(i);
+    }
+    const blob = new Blob([array], { type: mime });
+    return blob;
+}
+exports.base64ToBlob = base64ToBlob;
+/**
+ * blob 生成文件并下载
+ * @param {Blob} blob 文件的 blob
+ * @param {string} fileName 文件名
+ */
+function downloadBlob(blob, fileName) {
+    const link = document.createElement("a");
+    link.download = fileName;
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    URL.revokeObjectURL(link.href);
+}
+exports.downloadBlob = downloadBlob;
 //# sourceMappingURL=index.js.map

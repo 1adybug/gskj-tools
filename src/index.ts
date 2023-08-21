@@ -755,3 +755,32 @@ export function createCookieStorage(): Storage {
     }
     return cookieStorage
 }
+
+/**
+ * base64 转 blob
+ * @param {string} base64 需要转换的 base64
+ * @returns {Blob}
+ */
+export function base64ToBlob(base64: string): Blob {
+    const bytes = atob(base64.split(",")[1])
+    const array = new Uint8Array(bytes.length)
+    const mime = base64.match(/^data:(.*?);/)![1]
+    for (let i = 0; i < bytes.length; i++) {
+        array[i] = bytes.charCodeAt(i)
+    }
+    const blob = new Blob([array], { type: mime })
+    return blob
+}
+
+/**
+ * blob 生成文件并下载
+ * @param {Blob} blob 文件的 blob
+ * @param {string} fileName 文件名
+ */
+export function downloadBlob(blob: Blob, fileName: string) {
+    const link = document.createElement("a")
+    link.download = fileName
+    link.href = URL.createObjectURL(blob)
+    link.click()
+    URL.revokeObjectURL(link.href)
+}

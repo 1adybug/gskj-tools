@@ -226,3 +226,15 @@ export declare function canCoordsBePolygon(coords: number[][]): boolean;
 export declare function extendArrayPrototype(): void;
 /** 创建 cookie 的存储 */
 export declare function createCookieStorage(): Storage;
+/**
+ * base64 转 blob
+ * @param {string} base64 需要转换的 base64
+ * @returns {Blob}
+ */
+export declare function base64ToBlob(base64: string): Blob;
+/**
+ * blob 生成文件并下载
+ * @param {Blob} blob 文件的 blob
+ * @param {string} fileName 文件名
+ */
+export declare function downloadBlob(blob: Blob, fileName: string): void;
