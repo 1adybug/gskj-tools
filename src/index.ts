@@ -784,3 +784,52 @@ export function downloadBlob(blob: Blob, fileName: string) {
     link.click()
     URL.revokeObjectURL(link.href)
 }
+
+/**
+ * 帧数定时器
+ * @param {Function} callback 回调函数
+ * @param {number} frames 帧数，必须是 0 或者正整数
+ */
+export function setFrameTimeout(callback: () => void, frames: number): () => void {
+    if (!Number.isInteger(frames) || frames < 0) throw new RangeError("帧数只支持 0 或者正整数")
+    let current = 0
+    let signal = 0
+    function clearFrameTimeout() {
+        cancelAnimationFrame(signal)
+    }
+    function run() {
+        signal = requestAnimationFrame(() => {
+            run()
+            if (current++ >= frames) {
+                callback()
+                return
+            }
+        })
+    }
+    run()
+    return clearFrameTimeout
+}
+
+/**
+ * 帧数定时器
+ * @param {Function} callback 回调函数
+ * @param {number} frames 帧数，必须是正整数
+ */
+export function setFrameInterval(callback: () => void, frames: number): () => void {
+    if (!Number.isInteger(frames) || frames <= 0) throw new RangeError("帧数只支持正整数")
+    let current = 0
+    let signal = 0
+    function clearFrameInterval() {
+        cancelAnimationFrame(signal)
+    }
+    function run() {
+        signal = requestAnimationFrame(() => {
+            run()
+            if (current++ % frames === 0) {
+                callback()
+            }
+        })
+    }
+    run()
+    return clearFrameInterval
+}

@@ -238,3 +238,15 @@ export declare function base64ToBlob(base64: string): Blob;
  * @param {string} fileName 文件名
  */
 export declare function downloadBlob(blob: Blob, fileName: string): void;
+/**
+ * 帧数定时器
+ * @param {Function} callback 回调函数
+ * @param {number} frames 帧数，必须是 0 或者正整数
+ */
+export declare function setFrameTimeout(callback: () => void, frames: number): () => void;
+/**
+ * 帧数定时器
+ * @param {Function} callback 回调函数
+ * @param {number} frames 帧数，必须是正整数
+ */
+export declare function setFrameInterval(callback: () => void, frames: number): () => void;

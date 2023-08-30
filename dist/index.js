@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
+exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
 const js_cookie_1 = __importDefault(require("js-cookie"));
@@ -787,4 +787,55 @@ function downloadBlob(blob, fileName) {
     URL.revokeObjectURL(link.href);
 }
 exports.downloadBlob = downloadBlob;
+/**
+ * 帧数定时器
+ * @param {Function} callback 回调函数
+ * @param {number} frames 帧数，必须是 0 或者正整数
+ */
+function setFrameTimeout(callback, frames) {
+    if (!Number.isInteger(frames) || frames < 0)
+        throw new RangeError("帧数只支持 0 或者正整数");
+    let current = 0;
+    let signal = 0;
+    function clearFrameTimeout() {
+        cancelAnimationFrame(signal);
+    }
+    function run() {
+        signal = requestAnimationFrame(() => {
+            run();
+            if (current++ >= frames) {
+                callback();
+                return;
+            }
+        });
+    }
+    run();
+    return clearFrameTimeout;
+}
+exports.setFrameTimeout = setFrameTimeout;
+/**
+ * 帧数定时器
+ * @param {Function} callback 回调函数
+ * @param {number} frames 帧数，必须是正整数
+ */
+function setFrameInterval(callback, frames) {
+    if (!Number.isInteger(frames) || frames <= 0)
+        throw new RangeError("帧数只支持正整数");
+    let current = 0;
+    let signal = 0;
+    function clearFrameInterval() {
+        cancelAnimationFrame(signal);
+    }
+    function run() {
+        signal = requestAnimationFrame(() => {
+            run();
+            if (current++ % frames === 0) {
+                callback();
+            }
+        });
+    }
+    run();
+    return clearFrameInterval;
+}
+exports.setFrameInterval = setFrameInterval;
 //# sourceMappingURL=index.js.map
