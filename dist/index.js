@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
+exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
-const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
 const js_cookie_1 = __importDefault(require("js-cookie"));
+const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -838,4 +838,26 @@ function setFrameInterval(callback, frames) {
     return clearFrameInterval;
 }
 exports.setFrameInterval = setFrameInterval;
+/**
+ * 将搜索字符串映射为数据
+ */
+function getDataFromQuery(params, fns) {
+    return Object.keys(fns).reduce((prev, key) => {
+        prev[key] = fns[key](params.get(key));
+        return prev;
+    }, {});
+}
+exports.getDataFromQuery = getDataFromQuery;
+/**
+ * 将数据映射为搜索字符串
+ */
+function setQueryFromData(data, fns, setParams) {
+    setParams(Object.keys(data).reduce((prev, key) => {
+        const str = fns[key](data[key]);
+        if (str !== null)
+            prev[key] = str;
+        return prev;
+    }, {}));
+}
+exports.setQueryFromData = setQueryFromData;
 //# sourceMappingURL=index.js.map

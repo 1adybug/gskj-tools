@@ -1,6 +1,7 @@
 import Equal from "is-equal"
-import robustSegmentIntersect from "robust-segment-intersect"
 import Cookies from "js-cookie"
+import type { SetURLSearchParams } from "react-router-dom"
+import robustSegmentIntersect from "robust-segment-intersect"
 
 /**
  * 休眠指定时间
@@ -832,4 +833,35 @@ export function setFrameInterval(callback: () => void, frames: number): () => vo
     }
     run()
     return clearFrameInterval
+}
+
+export type QueryFnToData<T extends Record<string, (param: string | null) => any>> = {
+    [K in keyof T]: ReturnType<T[K]>
+}
+
+export type DataToDataFn<T extends Record<string, any>> = {
+    [K in keyof T]: (data: T[K]) => string | null
+}
+
+/**
+ * 将搜索字符串映射为数据
+ */
+export function getDataFromQuery<T extends Record<string, (param: string | null) => any>>(params: URLSearchParams, fns: T): QueryFnToData<T> {
+    return Object.keys(fns).reduce((prev: any, key) => {
+        prev[key] = fns[key](params.get(key))
+        return prev
+    }, {})
+}
+
+/**
+ * 将数据映射为搜索字符串
+ */
+export function setQueryFromData<T extends Record<string, any>>(data: T, fns: DataToDataFn<T>, setParams: SetURLSearchParams): void {
+    setParams(
+        Object.keys(data).reduce((prev: any, key) => {
+            const str = fns[key](data[key])
+            if (str !== null) prev[key] = str
+            return prev
+        }, {})
+    )
 }

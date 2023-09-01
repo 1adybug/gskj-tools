@@ -1,3 +1,4 @@
+import type { SetURLSearchParams } from "react-router-dom";
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -250,3 +251,17 @@ export declare function setFrameTimeout(callback: () => void, frames: number): (
  * @param {number} frames 帧数，必须是正整数
  */
 export declare function setFrameInterval(callback: () => void, frames: number): () => void;
+export type QueryFnToData<T extends Record<string, (param: string | null) => any>> = {
+    [K in keyof T]: ReturnType<T[K]>;
+};
+export type DataToDataFn<T extends Record<string, any>> = {
+    [K in keyof T]: (data: T[K]) => string | null;
+};
+/**
+ * 将搜索字符串映射为数据
+ */
+export declare function getDataFromQuery<T extends Record<string, (param: string | null) => any>>(params: URLSearchParams, fns: T): QueryFnToData<T>;
+/**
+ * 将数据映射为搜索字符串
+ */
+export declare function setQueryFromData<T extends Record<string, any>>(data: T, fns: DataToDataFn<T>, setParams: SetURLSearchParams): void;
