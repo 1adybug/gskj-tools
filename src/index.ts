@@ -1,7 +1,9 @@
 import Equal from "is-equal"
 import Cookies from "js-cookie"
+import { useEffect, useId, useInsertionEffect, useMemo, useRef, useState } from "react"
 import type { SetURLSearchParams } from "react-router-dom"
 import robustSegmentIntersect from "robust-segment-intersect"
+import md5 from "md5"
 
 /**
  * 休眠指定时间
@@ -864,4 +866,46 @@ export function setQueryFromData<T extends Record<string, any>>(data: T, fns: Da
             return prev
         }, {})
     )
+}
+
+
+/** 
+ * 将对象转换成 innerHTML
+ */
+export function getStyleInnerHTML(style: Record<string, string>) {
+    return `
+${Object.keys(style)
+    .map(selector => `    ${selector} {${style[selector]}}`)
+    .join("\n\n")}`
+}
+
+export const css = String.raw
+
+export const cssStore: Record<string, number> = {}
+
+/**
+ * useCss
+ */
+export function useCss(style: Record<string, string>) {
+    const css = getStyleInnerHTML(style)
+    useInsertionEffect(() => {
+        const id = md5(css)
+        if (cssStore[id]) {
+            cssStore[id]++
+        } else {
+            cssStore[id] = 1
+            const style = document.createElement("style")
+            style.innerHTML = css
+            style.id = id
+            document.head.appendChild(style)
+        }
+
+        return () => {
+            cssStore[id]--
+            if (cssStore[id] <= 0) {
+                const dom = document.getElementById(id)
+                if (dom) dom.remove()
+            }
+        }
+    }, [css])
 }

@@ -13,10 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
+exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 const js_cookie_1 = __importDefault(require("js-cookie"));
+const react_1 = require("react");
 const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
+const md5_1 = __importDefault(require("md5"));
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -860,4 +862,44 @@ function setQueryFromData(data, fns, setParams) {
     }, {}));
 }
 exports.setQueryFromData = setQueryFromData;
+/**
+ * 将对象转换成 innerHTML
+ */
+function getStyleInnerHTML(style) {
+    return `
+${Object.keys(style)
+        .map(selector => `    ${selector} {${style[selector]}}`)
+        .join("\n\n")}`;
+}
+exports.getStyleInnerHTML = getStyleInnerHTML;
+exports.css = String.raw;
+exports.cssStore = {};
+/**
+ * useCss
+ */
+function useCss(style) {
+    const css = getStyleInnerHTML(style);
+    (0, react_1.useInsertionEffect)(() => {
+        const id = (0, md5_1.default)(css);
+        if (exports.cssStore[id]) {
+            exports.cssStore[id]++;
+        }
+        else {
+            exports.cssStore[id] = 1;
+            const style = document.createElement("style");
+            style.innerHTML = css;
+            style.id = id;
+            document.head.appendChild(style);
+        }
+        return () => {
+            exports.cssStore[id]--;
+            if (exports.cssStore[id] <= 0) {
+                const dom = document.getElementById(id);
+                if (dom)
+                    dom.remove();
+            }
+        };
+    }, [css]);
+}
+exports.useCss = useCss;
 //# sourceMappingURL=index.js.map

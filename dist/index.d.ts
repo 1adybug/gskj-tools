@@ -265,3 +265,15 @@ export declare function getDataFromQuery<T extends Record<string, (param: string
  * 将数据映射为搜索字符串
  */
 export declare function setQueryFromData<T extends Record<string, any>>(data: T, fns: DataToDataFn<T>, setParams: SetURLSearchParams): void;
+/**
+ * 将对象转换成 innerHTML
+ */
+export declare function getStyleInnerHTML(style: Record<string, string>): string;
+export declare const css: (template: {
+    raw: readonly string[] | ArrayLike<string>;
+}, ...substitutions: any[]) => string;
+export declare const cssStore: Record<string, number>;
+/**
+ * useCss
+ */
+export declare function useCss(style: Record<string, string>): void;
