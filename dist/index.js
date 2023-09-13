@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-exports.tailwindColors = exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
+exports.tailwindColorNames = exports.tailwindColors = exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 const js_cookie_1 = __importDefault(require("js-cookie"));
 const react_1 = require("react");
@@ -1212,5 +1212,29 @@ exports.tailwindColors = {
         "900": "#881337",
         "950": "#4c0519"
     }
+};
+exports.tailwindColorNames = {
+    slate: "石灰色",
+    gray: "纯灰色",
+    zinc: "锌灰色",
+    neutral: "石板灰",
+    stone: "砂岩色",
+    red: "纯红色",
+    orange: "橘黄色",
+    amber: "琥珀色",
+    yellow: "纯黄色",
+    lime: "青橙色",
+    green: "纯绿色",
+    emerald: "翡翠绿",
+    teal: "盐湖绿",
+    cyan: "亚蓝色",
+    sky: "天蓝色",
+    blue: "纯蓝色",
+    indigo: "靛青色",
+    violet: "紫罗兰",
+    purple: "纯紫色",
+    fuchsia: "丁香紫",
+    pink: "粉红色",
+    rose: "玫瑰红"
 };
 //# sourceMappingURL=index.js.map

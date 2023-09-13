@@ -1227,3 +1227,28 @@ export type TailwindColors = typeof tailwindColors
 export type TailwindColorName = keyof TailwindColors
 
 export type TailwindColorDepth = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 950
+
+export const tailwindColorNames: Record<TailwindColorName, string> = {
+    slate: "石灰色",
+    gray: "纯灰色",
+    zinc: "锌灰色",
+    neutral: "石板灰",
+    stone: "砂岩色",
+    red: "纯红色",
+    orange: "橘黄色",
+    amber: "琥珀色",
+    yellow: "纯黄色",
+    lime: "青橙色",
+    green: "纯绿色",
+    emerald: "翡翠绿",
+    teal: "盐湖绿",
+    cyan: "亚蓝色",
+    sky: "天蓝色",
+    blue: "纯蓝色",
+    indigo: "靛青色",
+    violet: "紫罗兰",
+    purple: "纯紫色",
+    fuchsia: "丁香紫",
+    pink: "粉红色",
+    rose: "玫瑰红"
+}
