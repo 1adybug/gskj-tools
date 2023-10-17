@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.get51Coord = exports.getRealCoord = exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = void 0;
-exports.tailwindColorNames = exports.tailwindColors = exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
+exports.useArraySignal = exports.tailwindColorNames = exports.tailwindColors = exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = void 0;
 const is_equal_1 = __importDefault(require("is-equal"));
 const js_cookie_1 = __importDefault(require("js-cookie"));
 const react_1 = require("react");
@@ -1237,4 +1237,14 @@ exports.tailwindColorNames = {
     pink: "粉红色",
     rose: "玫瑰红"
 };
+function useArraySignal(data, compareFn) {
+    const dataRef = (0, react_1.useRef)(data);
+    const signal = (0, react_1.useRef)(Date.now());
+    if (dataRef.current.length !== data.length || dataRef.current.some((it, idx) => (compareFn ? !compareFn(it, data[idx]) : it !== data[idx]))) {
+        signal.current = Date.now();
+        dataRef.current = data;
+    }
+    return signal.current;
+}
+exports.useArraySignal = useArraySignal;
 //# sourceMappingURL=index.js.map

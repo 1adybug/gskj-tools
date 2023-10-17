@@ -868,8 +868,7 @@ export function setQueryFromData<T extends Record<string, any>>(data: T, fns: Da
     )
 }
 
-
-/** 
+/**
  * 将对象转换成 innerHTML
  */
 export function getStyleInnerHTML(style: Record<string, string>) {
@@ -1251,4 +1250,14 @@ export const tailwindColorNames: Record<TailwindColorName, string> = {
     fuchsia: "丁香紫",
     pink: "粉红色",
     rose: "玫瑰红"
+}
+
+export function useArraySignal<T>(data: T[], compareFn?: (a: T, b: T) => boolean) {
+    const dataRef = useRef(data)
+    const signal = useRef(Date.now())
+    if (dataRef.current.length !== data.length || dataRef.current.some((it, idx) => (compareFn ? !compareFn(it, data[idx]) : it !== data[idx]))) {
+        signal.current = Date.now()
+        dataRef.current = data
+    }
+    return signal.current
 }
