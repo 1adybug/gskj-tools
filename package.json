@@ -13,11 +13,13 @@
         "build": "npx tsc -p ."
     },
     "dependencies": {
+        "easy-zustand": "^3.6.4",
         "is-equal": "^1.6.4",
         "js-cookie": "^3.0.5",
         "md5": "^2.3.0",
         "react-router-dom": "^6.15.0",
-        "robust-segment-intersect": "^1.0.1"
+        "robust-segment-intersect": "^1.0.1",
+        "socket.io-client": "^4.7.2"
     },
     "keywords": [],
     "devDependencies": {

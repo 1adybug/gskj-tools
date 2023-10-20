@@ -13,12 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = exports.tailwindColorNames = exports.tailwindColors = void 0;
-exports.drawArc = exports.remain = exports.useArraySignal = exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = exports.get51Coord = exports.getRealCoord = void 0;
+exports.createTailwindColors = exports.drawArc = exports.remain = exports.useArraySignal = exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = exports.get51Coord = exports.getRealCoord = void 0;
+const easy_zustand_1 = require("easy-zustand");
 const is_equal_1 = __importDefault(require("is-equal"));
 const js_cookie_1 = __importDefault(require("js-cookie"));
 const md5_1 = __importDefault(require("md5"));
 const react_1 = require("react");
 const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
+const socket_io_client_1 = require("socket.io-client");
 var constant_1 = require("./constant");
 Object.defineProperty(exports, "tailwindColors", { enumerable: true, get: function () { return constant_1.tailwindColors; } });
 Object.defineProperty(exports, "tailwindColorNames", { enumerable: true, get: function () { return constant_1.tailwindColorNames; } });
@@ -944,4 +946,27 @@ function drawArc(x, y, radius, startAngle, endAngle, options = {}) {
     return `${line ? "L" : "M"} ${x + radius * Math.cos(startAngle)} ${y + radius * Math.sin(startAngle)} A ${radius} ${radius} 0 ${anticlockwise ? (startAngle > endAngle ? "0 0" : "1 0") : startAngle > endAngle ? "1 1" : "0 1"} ${x + radius * Math.cos(endAngle)} ${y + radius * Math.sin(endAngle)}`;
 }
 exports.drawArc = drawArc;
+function createTailwindColors(server) {
+    const useTailwindColors = (0, easy_zustand_1.createPersistentStore)({ color: "slate", depth: 50 }, "tailwind-colors");
+    let socket;
+    function connect(server) {
+        socket === null || socket === void 0 ? void 0 : socket.offAny();
+        socket === null || socket === void 0 ? void 0 : socket.disconnect();
+        socket = (0, socket_io_client_1.io)(server);
+        socket.on("connect", () => {
+            console.log("tailwind colors 服务器连接成功");
+        });
+        socket.on("connect_error", error => {
+            console.error("连接服务器失败");
+            console.error(error);
+        });
+        socket.on("color", (color, depth) => {
+            console.log(color, depth);
+            useTailwindColors.setState({ color, depth });
+        });
+    }
+    connect(server);
+    return { useTailwindColors, connect, socket: socket };
+}
+exports.createTailwindColors = createTailwindColors;
 //# sourceMappingURL=index.js.map

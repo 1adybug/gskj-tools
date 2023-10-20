@@ -1,4 +1,6 @@
 import type { SetURLSearchParams } from "react-router-dom";
+import { TailwindColorDepth, TailwindColorName } from "./constant";
+import { Socket } from "socket.io-client";
 export { tailwindColors, tailwindColorNames, TailwindColorDepth, TailwindColorName, TailwindColors } from "./constant";
 /**
  * 休眠指定时间
@@ -304,3 +306,18 @@ export interface DrawArcOptions {
  * @param {DrawArcOptions} options 其他绘制选项
  */
 export declare function drawArc(x: number, y: number, radius: number, startAngle: number, endAngle: number, options?: DrawArcOptions): string;
+export interface TailwindColor {
+    color: TailwindColorName;
+    depth: TailwindColorDepth;
+}
+export interface TailwindColorsServerToClientEvents {
+    color: (color: TailwindColorName, depth: TailwindColorDepth) => void;
+}
+export interface TailwindColorsClientToServerEvents {
+    color: (color: TailwindColorName, depth: TailwindColorDepth) => void;
+}
+export declare function createTailwindColors(server: string): {
+    useTailwindColors: import("easy-zustand").UsePersistentStore<TailwindColor, false>;
+    connect: (server: string) => void;
+    socket: Socket<TailwindColorsServerToClientEvents, TailwindColorsClientToServerEvents>;
+};

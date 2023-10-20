@@ -1,9 +1,12 @@
+import createStore, { createPersistentStore } from "easy-zustand"
 import Equal from "is-equal"
 import Cookies from "js-cookie"
 import md5 from "md5"
 import { useInsertionEffect, useRef } from "react"
 import type { SetURLSearchParams } from "react-router-dom"
 import robustSegmentIntersect from "robust-segment-intersect"
+import { TailwindColorDepth, TailwindColorName } from "./constant"
+import { Socket, io } from "socket.io-client"
 export { tailwindColors, tailwindColorNames, TailwindColorDepth, TailwindColorName, TailwindColors } from "./constant"
 
 /**
@@ -910,7 +913,7 @@ export function useCss(style: Record<string, string>) {
     }, [css])
 }
 
-/** 
+/**
  * 在 react 中比较数组是否发生变化
  */
 export function useArraySignal<T>(data: T[], compareFn?: (a: T, b: T) => boolean) {
@@ -955,4 +958,40 @@ export function drawArc(x: number, y: number, radius: number, startAngle: number
     const { line = false, anticlockwise = false } = options
 
     return `${line ? "L" : "M"} ${x + radius * Math.cos(startAngle)} ${y + radius * Math.sin(startAngle)} A ${radius} ${radius} 0 ${anticlockwise ? (startAngle > endAngle ? "0 0" : "1 0") : startAngle > endAngle ? "1 1" : "0 1"} ${x + radius * Math.cos(endAngle)} ${y + radius * Math.sin(endAngle)}`
+}
+
+export interface TailwindColor {
+    color: TailwindColorName
+    depth: TailwindColorDepth
+}
+
+export interface TailwindColorsServerToClientEvents {
+    color: (color: TailwindColorName, depth: TailwindColorDepth) => void
+}
+
+export interface TailwindColorsClientToServerEvents {
+    color: (color: TailwindColorName, depth: TailwindColorDepth) => void
+}
+
+export function createTailwindColors(server: string) {
+    const useTailwindColors = createPersistentStore<TailwindColor>({ color: "slate", depth: 50 }, "tailwind-colors")
+    let socket: Socket<TailwindColorsServerToClientEvents, TailwindColorsClientToServerEvents>
+    function connect(server: string) {
+        socket?.offAny()
+        socket?.disconnect()
+        socket = io(server)
+        socket.on("connect", () => {
+            console.log("tailwind colors 服务器连接成功")
+        })
+        socket.on("connect_error", error => {
+            console.error("连接服务器失败")
+            console.error(error)
+        })
+        socket.on("color", (color, depth) => {
+            console.log(color, depth)
+            useTailwindColors.setState({ color, depth })
+        })
+    }
+    connect(server)
+    return { useTailwindColors, connect, socket: socket! }
 }
