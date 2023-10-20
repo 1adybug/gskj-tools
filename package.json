@@ -7,7 +7,7 @@
     "description": "格数科技自用工具库",
     "repository": {
         "type": "git",
-        "url": "https://github.com/1adybug/gstools"
+        "url": "git+https://github.com/1adybug/gskj-tools.git"
     },
     "scripts": {
         "build": "npx tsc -p ."
