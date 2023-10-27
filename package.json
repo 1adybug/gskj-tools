@@ -10,6 +10,18 @@
         "type": "git",
         "url": "git+https://github.com/1adybug/gskj-tools.git"
     },
+    "exports": {
+        ".": {
+            "import": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/esm/index.js"
+            },
+            "require": {
+                "types": "./dist/index.d.ts",
+                "default": "./dist/cjs/index.js"
+            }
+        }
+    },
     "scripts": {
         "build": "npx tsc --sourceMap -module ES2020 -outDir dist/esm && npx tsc --sourceMap -module CommonJS -outDir dist/cjs && npx tsc --declaration --emitDeclarationOnly -outDir dist"
     },
