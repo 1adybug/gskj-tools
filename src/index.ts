@@ -1,13 +1,13 @@
-import createStore, { createPersistentStore } from "easy-zustand"
+import { createPersistentStore } from "easy-zustand"
 import Equal from "is-equal"
 import Cookies from "js-cookie"
 import md5 from "md5"
-import { useInsertionEffect, useRef } from "react"
+import { DependencyList, useEffect, useInsertionEffect, useRef } from "react"
 import type { SetURLSearchParams } from "react-router-dom"
 import robustSegmentIntersect from "robust-segment-intersect"
-import { TailwindColorDepth, TailwindColorName } from "./constant"
 import { Socket, io } from "socket.io-client"
-export { tailwindColors, tailwindColorNames, TailwindColorDepth, TailwindColorName, TailwindColors } from "./constant"
+import { TailwindColorDepth, TailwindColorName } from "./constant"
+export { TailwindColorDepth, TailwindColorName, TailwindColors, tailwindColorNames, tailwindColors } from "./constant"
 
 /**
  * 休眠指定时间
@@ -889,8 +889,8 @@ export const cssStore: Record<string, number> = {}
 /**
  * useCss
  */
-export function useCss(style: Record<string, string>) {
-    const css = getStyleInnerHTML(style)
+export function useCss(style: Record<string, string> | string) {
+    const css = typeof style === "string" ? style : getStyleInnerHTML(style)
     useInsertionEffect(() => {
         const id = md5(css)
         if (cssStore[id]) {
@@ -994,4 +994,25 @@ export function createTailwindColors(server: string) {
     }
     connect(server)
     return { useTailwindColors, connect, socket: socket! }
+}
+
+export function useAsync(effect: () => Promise<void>, callback: () => void, deps?: DependencyList): void
+export function useAsync(effect: () => Promise<void>, deps?: DependencyList): void
+export function useAsync(effect: () => Promise<void>, callbackOrDeps?: (() => void) | DependencyList, deps?: DependencyList) {
+    if (callbackOrDeps === undefined) {
+        useEffect(() => {
+            effect()
+        })
+        return
+    }
+    if (typeof callbackOrDeps === "function") {
+        useEffect(() => {
+            effect()
+            return callbackOrDeps
+        }, deps)
+        return
+    }
+    useEffect(() => {
+        effect()
+    }, callbackOrDeps)
 }

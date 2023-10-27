@@ -1,7 +1,8 @@
+import { DependencyList } from "react";
 import type { SetURLSearchParams } from "react-router-dom";
-import { TailwindColorDepth, TailwindColorName } from "./constant";
 import { Socket } from "socket.io-client";
-export { tailwindColors, tailwindColorNames, TailwindColorDepth, TailwindColorName, TailwindColors } from "./constant";
+import { TailwindColorDepth, TailwindColorName } from "./constant";
+export { TailwindColorDepth, TailwindColorName, TailwindColors, tailwindColorNames, tailwindColors } from "./constant";
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -279,7 +280,7 @@ export declare const cssStore: Record<string, number>;
 /**
  * useCss
  */
-export declare function useCss(style: Record<string, string>): void;
+export declare function useCss(style: Record<string, string> | string): void;
 /**
  * 在 react 中比较数组是否发生变化
  */
@@ -321,3 +322,5 @@ export declare function createTailwindColors(server: string): {
     connect: (server: string) => void;
     socket: Socket<TailwindColorsServerToClientEvents, TailwindColorsClientToServerEvents>;
 };
+export declare function useAsync(effect: () => Promise<void>, callback: () => void, deps?: DependencyList): void;
+export declare function useAsync(effect: () => Promise<void>, deps?: DependencyList): void;

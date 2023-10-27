@@ -4,16 +4,17 @@
     "license": "MIT",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "type": "module",
     "description": "格数科技自用工具库",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/1adybug/gskj-tools.git"
     },
     "scripts": {
-        "build": "npx tsc -p ."
+        "build": "npx tsc --sourceMap -module ES2020 -outDir dist/esm && npx tsc --sourceMap -module CommonJS -outDir dist/cjs && npx tsc --declaration --emitDeclarationOnly -outDir dist"
     },
     "dependencies": {
-        "easy-zustand": "^3.6.4",
+        "easy-zustand": "^3.7.0",
         "is-equal": "^1.6.4",
         "js-cookie": "^3.0.5",
         "md5": "^2.3.0",

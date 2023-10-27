@@ -1,19 +1,10 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = exports.tailwindColorNames = exports.tailwindColors = void 0;
-exports.createTailwindColors = exports.drawArc = exports.remain = exports.useArraySignal = exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = exports.get51Coord = exports.getRealCoord = void 0;
+exports.coordCheck = exports.coordIsNumberArray = exports.coordStringToNumber = exports.parseNumber = exports.isNumber = exports.isPositiveInteger = exports.isPositiveNumber = exports.getPointToLineMinDistance = exports.getArray = exports.size = exports.px = exports.getPropertiesIsModified = exports.ONE_LAT = exports.ONE_LNG = exports.ECHARTS_COLOR_LIST = exports.ECHARTS_COLOR = exports.getRandomName = exports.addZero = exports.setPeriod = exports.getSexFromId = exports.getAgeFromId = exports.getRunAtFrame = exports.stringToNumber = exports.coverIdWithMosaics = exports.stringToArray = exports.isLegalId = exports.idReg = exports.compareProperties = exports.compareWithoutProperties = exports.equal = exports.isObject = exports.getProperties = exports.getCoord = exports.getDistance = exports.twoNumberIsEqual = exports.getRandomId = exports.getRandomDate = exports.getMonthLength = exports.getRandomYear = exports.getRandomPlateNo = exports.getRandomPlateNoItem = exports.plateNoAlphabetList = exports.possibility = exports.getRandomPhone = exports.digitList = exports.getRandomItemFromList = exports.getRandomBetween = exports.sleep = exports.tailwindColors = exports.tailwindColorNames = void 0;
+exports.useAsync = exports.createTailwindColors = exports.drawArc = exports.remain = exports.useArraySignal = exports.useCss = exports.cssStore = exports.css = exports.getStyleInnerHTML = exports.setQueryFromData = exports.getDataFromQuery = exports.setFrameInterval = exports.setFrameTimeout = exports.downloadBlob = exports.base64ToBlob = exports.createCookieStorage = exports.extendArrayPrototype = exports.canCoordsBePolygon = exports.ifTwoSegmentsIntersect = exports.getHeaders = exports.get51Coord = exports.getRealCoord = void 0;
 const easy_zustand_1 = require("easy-zustand");
 const is_equal_1 = __importDefault(require("is-equal"));
 const js_cookie_1 = __importDefault(require("js-cookie"));
@@ -22,19 +13,17 @@ const react_1 = require("react");
 const robust_segment_intersect_1 = __importDefault(require("robust-segment-intersect"));
 const socket_io_client_1 = require("socket.io-client");
 var constant_1 = require("./constant");
-Object.defineProperty(exports, "tailwindColors", { enumerable: true, get: function () { return constant_1.tailwindColors; } });
 Object.defineProperty(exports, "tailwindColorNames", { enumerable: true, get: function () { return constant_1.tailwindColorNames; } });
+Object.defineProperty(exports, "tailwindColors", { enumerable: true, get: function () { return constant_1.tailwindColors; } });
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
  */
-function sleep(time) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(1);
-            }, time);
-        });
+async function sleep(time) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(1);
+        }, time);
     });
 }
 exports.sleep = sleep;
@@ -105,7 +94,7 @@ exports.getRandomPlateNoItem = getRandomPlateNoItem;
  * @param start - 开始的两位，默认是苏H
  */
 function getRandomPlateNo(start) {
-    return `${start !== null && start !== void 0 ? start : "苏H"}${Array(5).fill(0).map(getRandomPlateNoItem).join("")}`;
+    return `${start ?? "苏H"}${Array(5).fill(0).map(getRandomPlateNoItem).join("")}`;
 }
 exports.getRandomPlateNo = getRandomPlateNo;
 /** 获取随机年份 */
@@ -145,7 +134,7 @@ function getRandomId(area) {
         if (area < 110000 || area > 820000)
             throw new Error("区号必须在 110000 和 820000 之间");
     }
-    return `${area !== null && area !== void 0 ? area : "380812"}${getRandomYear()}${getRandomDate()}${getRandomBetween(0, 9)}${getRandomBetween(0, 9)}${getRandomBetween(0, 9)}${getRandomBetween(0, 9)}`;
+    return `${area ?? "380812"}${getRandomYear()}${getRandomDate()}${getRandomBetween(0, 9)}${getRandomBetween(0, 9)}${getRandomBetween(0, 9)}${getRandomBetween(0, 9)}`;
 }
 exports.getRandomId = getRandomId;
 /** 判断两个数字是否相等 */
@@ -746,8 +735,7 @@ function createCookieStorage() {
             return Object.keys(js_cookie_1.default.get() || {}).length;
         },
         clear() {
-            var _a;
-            (_a = Object.keys(js_cookie_1.default.get() || {})) === null || _a === void 0 ? void 0 : _a.forEach(key => js_cookie_1.default.remove(key));
+            Object.keys(js_cookie_1.default.get() || {})?.forEach(key => js_cookie_1.default.remove(key));
         },
         getItem(key) {
             return js_cookie_1.default.get(key) || null;
@@ -883,7 +871,7 @@ exports.cssStore = {};
  * useCss
  */
 function useCss(style) {
-    const css = getStyleInnerHTML(style);
+    const css = typeof style === "string" ? style : getStyleInnerHTML(style);
     (0, react_1.useInsertionEffect)(() => {
         const id = (0, md5_1.default)(css);
         if (exports.cssStore[id]) {
@@ -950,8 +938,8 @@ function createTailwindColors(server) {
     const useTailwindColors = (0, easy_zustand_1.createPersistentStore)({ color: "slate", depth: 50 }, "tailwind-colors");
     let socket;
     function connect(server) {
-        socket === null || socket === void 0 ? void 0 : socket.offAny();
-        socket === null || socket === void 0 ? void 0 : socket.disconnect();
+        socket?.offAny();
+        socket?.disconnect();
         socket = (0, socket_io_client_1.io)(server);
         socket.on("connect", () => {
             console.log("tailwind colors 服务器连接成功");
@@ -969,4 +957,23 @@ function createTailwindColors(server) {
     return { useTailwindColors, connect, socket: socket };
 }
 exports.createTailwindColors = createTailwindColors;
+function useAsync(effect, callbackOrDeps, deps) {
+    if (callbackOrDeps === undefined) {
+        (0, react_1.useEffect)(() => {
+            effect();
+        });
+        return;
+    }
+    if (typeof callbackOrDeps === "function") {
+        (0, react_1.useEffect)(() => {
+            effect();
+            return callbackOrDeps;
+        }, deps);
+        return;
+    }
+    (0, react_1.useEffect)(() => {
+        effect();
+    }, callbackOrDeps);
+}
+exports.useAsync = useAsync;
 //# sourceMappingURL=index.js.map
