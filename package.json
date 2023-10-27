@@ -1,6 +1,6 @@
 {
     "name": "gskj-tools",
-    "version": "1.11.2",
+    "version": "1.11.3",
     "license": "MIT",
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
