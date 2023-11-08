@@ -336,4 +336,4 @@ exports.tailwindColorNames = {
     pink: "粉红色",
     rose: "玫瑰红"
 };
-//# sourceMappingURL=constant.js.map
+//# sourceMappingURL=tailwind.js.map

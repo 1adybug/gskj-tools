@@ -6,8 +6,9 @@ import { DependencyList, useEffect, useInsertionEffect, useRef } from "react"
 import type { SetURLSearchParams } from "react-router-dom"
 import robustSegmentIntersect from "robust-segment-intersect"
 import { Socket, io } from "socket.io-client"
-import { TailwindColorDepth, TailwindColorName } from "./constant"
-export { TailwindColorDepth, TailwindColorName, TailwindColors, tailwindColorNames, tailwindColors } from "./constant"
+import { TailwindColorDepth, TailwindColorName } from "./tailwind"
+export * from "./tailwind"
+export * from "./antd"
 
 /**
  * 休眠指定时间
@@ -1016,3 +1017,5 @@ export function useAsync(effect: () => Promise<void>, callbackOrDeps?: (() => vo
         effect()
     }, callbackOrDeps)
 }
+
+export type GetTipString<T extends string> = T | (string & {})

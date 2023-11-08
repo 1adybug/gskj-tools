@@ -5,6 +5,7 @@
     "main": "dist/cjs/index.js",
     "module": "dist/esm/index.js",
     "types": "dist/index.d.ts",
+    "type": "module",
     "description": "格数科技自用工具库",
     "repository": {
         "type": "git",
@@ -23,9 +24,10 @@
         }
     },
     "scripts": {
-        "build": "npx tsc --sourceMap -module ES2020 -outDir dist/esm && npx tsc --sourceMap -module CommonJS -outDir dist/cjs && npx tsc --declaration --emitDeclarationOnly -outDir dist"
+        "build": "node build.js"
     },
     "dependencies": {
+        "@emotion/css": "^11.11.2",
         "easy-zustand": "^3.7.0",
         "is-equal": "^1.6.4",
         "js-cookie": "^3.0.5",

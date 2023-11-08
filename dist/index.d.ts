@@ -1,8 +1,9 @@
 import { DependencyList } from "react";
 import type { SetURLSearchParams } from "react-router-dom";
 import { Socket } from "socket.io-client";
-import { TailwindColorDepth, TailwindColorName } from "./constant";
-export { TailwindColorDepth, TailwindColorName, TailwindColors, tailwindColorNames, tailwindColors } from "./constant";
+import { TailwindColorDepth, TailwindColorName } from "./tailwind";
+export * from "./tailwind";
+export * from "./antd";
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
@@ -324,3 +325,4 @@ export declare function createTailwindColors(server: string): {
 };
 export declare function useAsync(effect: () => Promise<void>, callback: () => void, deps?: DependencyList): void;
 export declare function useAsync(effect: () => Promise<void>, deps?: DependencyList): void;
+export type GetTipString<T extends string> = T | (string & {});

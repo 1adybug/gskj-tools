@@ -5,7 +5,8 @@ import md5 from "md5";
 import { useEffect, useInsertionEffect, useRef } from "react";
 import robustSegmentIntersect from "robust-segment-intersect";
 import { io } from "socket.io-client";
-export { tailwindColorNames, tailwindColors } from "./constant";
+export * from "./tailwind";
+export * from "./antd";
 /**
  * 休眠指定时间
  * @param {number} time - 休眠的毫秒数
